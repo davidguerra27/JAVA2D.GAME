@@ -1,0 +1,206 @@
+<html>
+<head>
+<title>Player.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Player.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">character</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.Graphics2D</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.File</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.InputStream</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javax.imageio.ImageIO</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">game.GamePanel</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">game.KeyHandler</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.awt.image.BufferedImage</span><span class="s0">;</span>
+
+
+<span class="s0">public class </span><span class="s1">Player </span><span class="s0">extends </span><span class="s1">Character{</span>
+    <span class="s1">GamePanel gp</span><span class="s0">;</span>
+    <span class="s1">KeyHandler keyH</span><span class="s0">;</span>
+
+
+    <span class="s1">File f1 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_back_1.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f2 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_back_2.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f3 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_front_1.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f4 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_front_2.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f5 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_left_1.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f6 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_left_2.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f7 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_right_1.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">File f8 = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;/res/player2/player_right_2.png&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+
+    <span class="s0">public final int </span><span class="s1">screenX</span><span class="s0">;</span>
+    <span class="s0">public final int </span><span class="s1">screenY</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">Player(GamePanel gp</span><span class="s0">,  </span><span class="s1">KeyHandler keyH){</span>
+        
+        <span class="s0">this</span><span class="s1">.gp = gp</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.keyH = keyH</span><span class="s0">;</span>
+
+        <span class="s1">screenX = gp.screenWidth/</span><span class="s3">2 </span><span class="s1">- (gp.tileSize/</span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">screenY = gp.screenHeight/</span><span class="s3">2 </span><span class="s1">- (gp.tileSize/</span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">solidArea = </span><span class="s0">new </span><span class="s1">Rectangle()</span><span class="s0">;</span>
+        <span class="s1">solidArea.x = </span><span class="s3">8</span><span class="s0">;</span>
+        <span class="s1">solidArea.y = </span><span class="s3">8</span><span class="s0">;</span>
+        <span class="s1">solidArea.width = </span><span class="s3">16</span><span class="s0">;</span>
+        <span class="s1">solidArea.height = </span><span class="s3">16</span><span class="s0">;</span>
+
+        <span class="s1">setDefaultValues()</span><span class="s0">;</span>
+        <span class="s1">getPlayerImage()</span><span class="s0">;</span>
+
+
+
+
+
+    <span class="s1">}</span>
+
+
+
+    <span class="s0">public void </span><span class="s1">setDefaultValues(){</span>
+        <span class="s1">worldX = gp.tileSize*</span><span class="s3">23</span><span class="s0">;</span>
+        <span class="s1">worldY = gp.tileSize*</span><span class="s3">21</span><span class="s0">;</span>
+
+        <span class="s1">speed=</span><span class="s3">3</span><span class="s0">;</span>
+        <span class="s1">direction = </span><span class="s2">&quot;down&quot;</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+    <span class="s0">public void </span><span class="s1">getPlayerImage(){</span>
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">up1 = ImageIO.read(f1)</span><span class="s0">;</span>
+            <span class="s1">up2 = ImageIO.read(f2)</span><span class="s0">;</span>
+            <span class="s1">down1 = ImageIO.read(f3)</span><span class="s0">;</span>
+            <span class="s1">down2 = ImageIO.read(f4)</span><span class="s0">;</span>
+            <span class="s1">left1 = ImageIO.read(f5)</span><span class="s0">;</span>
+            <span class="s1">left2 = ImageIO.read(f6)</span><span class="s0">;</span>
+            <span class="s1">right1 = ImageIO.read(f7)</span><span class="s0">;</span>
+            <span class="s1">right2 = ImageIO.read(f8)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IOException e){</span>
+            <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    
+    <span class="s0">public void </span><span class="s1">update() {</span>
+        <span class="s0">if</span><span class="s1">(keyH.upPressed == </span><span class="s0">true </span><span class="s1">||keyH.downPressed == </span><span class="s0">true </span><span class="s1">||</span>
+        <span class="s1">keyH.leftPressed == </span><span class="s0">true </span><span class="s1">||keyH.rightPressed == </span><span class="s0">true </span><span class="s1">){</span>
+            <span class="s0">if</span><span class="s1">(keyH.upPressed == </span><span class="s0">true</span><span class="s1">){</span>
+                <span class="s1">direction = </span><span class="s2">&quot;up&quot;</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+            <span class="s0">else if</span><span class="s1">(keyH.downPressed == </span><span class="s0">true</span><span class="s1">){</span>
+                <span class="s1">direction = </span><span class="s2">&quot;down&quot;</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+            <span class="s0">else if</span><span class="s1">(keyH.leftPressed == </span><span class="s0">true</span><span class="s1">){</span>
+                <span class="s1">direction = </span><span class="s2">&quot;left&quot;</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+            <span class="s0">else if</span><span class="s1">(keyH.rightPressed == </span><span class="s0">true</span><span class="s1">){</span>
+                <span class="s1">direction = </span><span class="s2">&quot;right&quot;</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+            <span class="s4">//CHECK TILE COLLISION</span>
+            <span class="s1">collisionOn = </span><span class="s0">false;</span>
+            <span class="s1">gp.cChecker.checkTile(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s4">//IF COLLISION IS FALSE,PLAYER CAN MOVE</span>
+            <span class="s0">if</span><span class="s1">(collisionOn == </span><span class="s0">false</span><span class="s1">){</span>
+
+                <span class="s0">switch</span><span class="s1">(direction){</span>
+                    <span class="s0">case </span><span class="s2">&quot;up&quot;</span><span class="s1">:worldY -=speed</span><span class="s0">;break;</span>
+                    <span class="s0">case </span><span class="s2">&quot;down&quot;</span><span class="s1">:worldY +=speed</span><span class="s0">;break;</span>
+                    <span class="s0">case </span><span class="s2">&quot;left&quot;</span><span class="s1">:worldX -=speed</span><span class="s0">;break;</span>
+                    <span class="s0">case </span><span class="s2">&quot;right&quot;</span><span class="s1">:worldX +=speed</span><span class="s0">;break;</span>
+
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+
+
+
+
+            <span class="s1">spriteCounter++</span><span class="s0">;</span>
+
+            <span class="s0">if</span><span class="s1">(spriteCounter &gt; </span><span class="s3">12</span><span class="s1">){</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">1</span><span class="s1">){</span>
+                    <span class="s1">spriteNum = </span><span class="s3">2</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else if</span><span class="s1">(spriteNum == </span><span class="s3">2</span><span class="s1">){</span>
+                    <span class="s1">spriteNum = </span><span class="s3">1</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+            <span class="s1">spriteCounter = </span><span class="s3">0</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+
+        
+    <span class="s1">}</span>
+    
+
+    <span class="s0">public void </span><span class="s1">draw(Graphics2D g2){</span>
+
+       <span class="s4">// g2.setColor(Color.orange);</span>
+
+        <span class="s4">//g2.fillRect(x,y , gp.tileSize,gp. tileSize);</span>
+        <span class="s1">BufferedImage image= </span><span class="s0">null;</span>
+
+        <span class="s0">switch</span><span class="s1">(direction){</span>
+
+            <span class="s0">case </span><span class="s2">&quot;up&quot;</span><span class="s1">:</span>
+                <span class="s0">if</span><span class="s1">(spriteNum ==</span><span class="s3">1</span><span class="s1">){</span>
+                    <span class="s1">image = up1</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">2</span><span class="s1">){</span>
+                    <span class="s1">image = up2</span><span class="s0">;</span>
+                <span class="s1">}  </span>
+                <span class="s0">break;</span>
+            <span class="s0">case </span><span class="s2">&quot;down&quot;</span><span class="s1">:</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">1</span><span class="s1">){</span>
+                  <span class="s1">image = down1</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">2</span><span class="s1">){</span>
+                    <span class="s1">image = down2</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">break;</span>
+            <span class="s0">case </span><span class="s2">&quot;left&quot;</span><span class="s1">:</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">1</span><span class="s1">){</span>
+                  <span class="s1">image = left1</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">2</span><span class="s1">){</span>
+                    <span class="s1">image = left2</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">break;</span>
+           <span class="s0">case </span><span class="s2">&quot;right&quot;</span><span class="s1">:</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">1</span><span class="s1">){</span>
+                  <span class="s1">image = right1</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">if</span><span class="s1">(spriteNum == </span><span class="s3">2</span><span class="s1">){</span>
+                    <span class="s1">image = right2</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">break;</span>
+                
+
+        <span class="s1">}</span>
+        <span class="s1">g2.drawImage(image </span><span class="s0">, </span><span class="s1">screenX </span><span class="s0">, </span><span class="s1">screenY </span><span class="s0">, </span><span class="s1">gp.tileSize </span><span class="s0">, </span><span class="s1">gp.tileSize </span><span class="s0">, null</span><span class="s1">)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
